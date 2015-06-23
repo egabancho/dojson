@@ -2915,6 +2915,18 @@ def subject_added_entry_hierarchical_place_name(self, key, value):
 def subject_indicator(self, keu, value):
     return value.get('a')
 
+@marc21.over('accelerator', '^693..')
+@utils.for_each_value
+@utils.filter_values
+def accelerator(self, keu, value):
+    return {
+        'accelerator': value.get('a'),
+        'experiment': value.get('e'),
+        'facility': value.get('f'),
+        'project': value.get('p'),
+        'study': value.get('s'),
+    }
+
 @marc21.over('added_entry_personal_name', '^700[103][.2]')
 @utils.for_each_value
 @utils.filter_values
