@@ -3648,3 +3648,13 @@ def other_relationship_entry(self, key, value):
 @utils.filter_values
 def base_number(self, key, value):
     return value.get('a')
+
+@marc21.over('collection_indicator', '^980..')
+@utils.for_each_value
+@utils.filter_values
+def base_number(self, key, value):
+    return {
+        'primary': value.get('a'),
+        'secondary': value.get('b'),
+        'deleted': value.get('c'),
+    }
