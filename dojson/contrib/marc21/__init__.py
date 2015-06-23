@@ -3658,3 +3658,45 @@ def base_number(self, key, value):
         'secondary': value.get('b'),
         'deleted': value.get('c'),
     }
+
+@marc21.over('reference', '^999C5')
+@utils.for_each_value
+@utils.filter_values
+def references(self, key, value):
+    return {
+        'recid': value.get('0'),
+        'curator': value.get('9'),
+        'bittext': value.get('1'),
+        'doi': value.get('a'),
+        'cnum': value.get('b'),
+        'collaboration': value.get('c'),
+        'doctype': value.get('d'),
+        'editor': value.get('e'),
+        'authors': value.get('h'),
+        'isbn': value.get('i'),
+        'miscellaneous': value.get('m'),
+        'issue_number': value.get('n'),
+        'order_number': value.get('o'),
+        'page': value.get('p'),
+        'report_number': value.get('r'),
+        'title': value.get('t'),
+        'main_title': value.get('q'),
+        'journal_publication_note': value.get('s'),
+        'journal_title_abbreviation': value.get('u'),
+        'volume': value.get('v'),
+        'original_ref_string': value.get('x'),
+        'year': value.get('y'),
+    }
+
+@marc21.over('reference_refextract', '^999C6')
+@utils.for_each_value
+@utils.filter_values
+def references_refextract(self, key, value):
+    return {
+        'source': value.get('9'),
+        'refextract_info': value.get('a'),
+        'comment': value.get('c'),
+        'file_name': value.get('f'),
+        'year': value.get('t'),
+        'version': value.get('v'),
+    }
