@@ -2549,6 +2549,18 @@ def source_of_description_note(self, key, value):
         'linkage': value.get('6'),
     }
 
+@marc21.over('internal_note', '^595..')
+@utils.for_each_value
+@utils.filter_values
+def internal_note(self, key, value):
+    return {
+        'internal_note': value.get('a'),
+        'control_field': value.get('d'),
+        'inspec_number': value.get('i'),
+        'subject_note': value.get('s'),
+        'internal_cern_field': value.get('c'),
+    }
+
 @marc21.over('subject_added_entry_personal_name', '^600[103][10325476]')
 @utils.for_each_value
 @utils.filter_values
