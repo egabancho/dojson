@@ -882,7 +882,7 @@ def translation_of_title_by_cataloging_agency(self, key, value):
     indicator_map2 = {u'0': u'No nonfiling characters'}
     return {
         'title': value.get('a'),
-        'statement_of_responsibility_': value.get('c'),
+        'statement_of_responsibility': value.get('c'),
         'remainder_of_title': value.get('b'),
         'medium': value.get('h'),
         'number_of_part_section_of_a_work': value.get('n'),
@@ -924,7 +924,7 @@ def title_statement(self, key, value):
     indicator_map2 = {u'0': u'No nonfiling characters'}
     return {
         'title': value.get('a'),
-        'statement_of_responsibility_': value.get('c'),
+        'statement_of_responsibility': value.get('c'),
         'remainder_of_title': value.get('b'),
         'bulk_dates': value.get('g'),
         'inclusive_dates': value.get('f'),
@@ -1056,9 +1056,9 @@ def philatelic_issue_data(self, key, value):
 def publication_distribution__imprint(self, key, value):
     indicator_map1 = {u'#': u'Not applicable/No information provided/Earliest available publisher', u'2': u'Intervening publisher', u'3': u'Current/latest publisher'}
     return {
-        'place_of_publication_distribution_': value.get('a'),
-        'date_of_publication_distribution_': value.get('c'),
-        'name_of_publisher_distributor_': value.get('b'),
+        'place_of_publication_distribution': value.get('a'),
+        'date_of_publication_distribution': value.get('c'),
+        'name_of_publisher_distributor': value.get('b'),
         'place_of_manufacture': value.get('e'),
         'date_of_manufacture': value.get('g'),
         'manufacturer': value.get('f'),
@@ -1075,8 +1075,8 @@ def imprint_statement_for_films_pre_aacr_1_revised(self, key, value):
         'producing_company': value.get('a'),
         'releasing_company': value.get('b'),
         'contractual_producer': value.get('e'),
-        'date_of_production_release_': value.get('d'),
-        'place_of_production_release_': value.get('f'),
+        'date_of_production_release': value.get('d'),
+        'place_of_production_release': value.get('f'),
         'linkage': value.get('6'),
         'field_link_and_sequence_number': value.get('8'),
     }
@@ -1085,8 +1085,8 @@ def imprint_statement_for_films_pre_aacr_1_revised(self, key, value):
 @utils.filter_values
 def imprint_statement_for_sound_recordings_pre_aacr_1(self, key, value):
     return {
-        'place_of_production_release_': value.get('a'),
-        'date_of_production_release_': value.get('c'),
+        'place_of_production_release': value.get('a'),
+        'date_of_production_release': value.get('c'),
         'publisher_or_trade_name': value.get('b'),
         'serial_identification': value.get('k'),
         'matrix_and_or_take_number': value.get('l'),
@@ -1175,10 +1175,10 @@ def playing_time(self, key, value):
         'linkage': value.get('6'),
     }
 
-@marc21.over('hours_', '^307[8.].')
+@marc21.over('hours', '^307[8.].')
 @utils.for_each_value
 @utils.filter_values
-def hours_(self, key, value):
+def hours(self, key, value):
     indicator_map1 = {u'8': u'No display constant generated', u'#': u'Hours'}
     return {
         'hours': value.get('a'),
@@ -1989,13 +1989,13 @@ def date_time_and_place_of_an_event_note(self, key, value):
         'field_link_and_sequence_number': value.get('8'),
     }
 
-@marc21.over('summary_', '^520[.103248].')
+@marc21.over('summary', '^520[.103248].')
 @utils.for_each_value
 @utils.filter_values
-def summary_(self, key, value):
+def summary(self, key, value):
     indicator_map1 = {u'#': u'Summary', u'1': u'Review', u'0': u'Subject', u'3': u'Abstract', u'2': u'Scope and content', u'4': u'Content advice', u'8': u'No display constant generated'}
     return {
-        'summary_': value.get('a'),
+        'summary': value.get('a'),
         'assigning_source': value.get('c'),
         'expansion_of_summary_note': value.get('b'),
         'materials_specified': value.get('3'),
