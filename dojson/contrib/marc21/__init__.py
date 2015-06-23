@@ -2897,6 +2897,12 @@ def subject_added_entry_hierarchical_place_name(self, key, value):
         'field_link_and_sequence_number': value.get('8'),
     }
 
+@marc21.over('subject_indicator', '^690C.')
+@utils.for_each_value
+@utils.filter_values
+def subject_indicator(self, keu, value):
+    return value.get('a')
+
 @marc21.over('added_entry_personal_name', '^700[103][.2]')
 @utils.for_each_value
 @utils.filter_values
