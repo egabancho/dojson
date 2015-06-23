@@ -2937,6 +2937,15 @@ def accelerator(self, keu, value):
         'study': value.get('s'),
     }
 
+@marc21.over('thesaurus_terms', '^695..')
+@utils.for_each_value
+@utils.filter_values
+def thesaurus_terms(self, keu, value):
+    return {
+        'uncontrolled_term': value.get('a'),
+        'institute': value.get('9'),
+    }
+
 @marc21.over('added_entry_personal_name', '^700[103][.2]')
 @utils.for_each_value
 @utils.filter_values
