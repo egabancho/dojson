@@ -1150,6 +1150,16 @@ def address(self, key, value):
         'level': indicator_map1.get(key[3]),
     }
 
+@marc21.over('prepublication', '^269..')
+@utils.for_each_value
+@utils.filter_values
+def prepublication(self, key, value):
+    return {
+        'place': value.get('a'),
+        'name': value.get('b'),
+        'date': value.get('c'),
+    }
+
 @marc21.over('physical_description', '^300..')
 @utils.for_each_value
 @utils.filter_values
