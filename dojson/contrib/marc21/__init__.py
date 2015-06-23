@@ -3643,6 +3643,20 @@ def other_relationship_entry(self, key, value):
         'display_constant_controller': indicator_map2.get(key[4]),
     }
 
+@marc21.over('status_week', '^916..')
+@utils.for_each_value
+@utils.filter_values
+def status_week(self, key, value):
+    return {
+        'acquisition_of_proceedings_code': value.get('a'),
+        'display_period_for_books': value.get('d'),
+        'number_of_copies_bought_by_cern': value.get('e'),
+        'status_of_record': value.get('s'),
+        'status_week': value.get('w'),
+        'year_for_annual_list': value.get('y'),
+        'cern_paper_or_cern_work': value.get('z'),
+    }
+
 @marc21.over('base_number', '^960..')
 @utils.for_each_value
 @utils.filter_values
