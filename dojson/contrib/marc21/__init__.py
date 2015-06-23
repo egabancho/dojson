@@ -3642,3 +3642,9 @@ def other_relationship_entry(self, key, value):
         'note_controller': indicator_map1.get(key[3]),
         'display_constant_controller': indicator_map2.get(key[4]),
     }
+
+@marc21.over('base_number', '^960..')
+@utils.for_each_value
+@utils.filter_values
+def base_number(self, key, value):
+    return value.get('a')
