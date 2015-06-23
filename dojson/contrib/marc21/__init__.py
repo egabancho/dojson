@@ -3663,6 +3663,24 @@ def status_week(self, key, value):
 def base_number(self, key, value):
     return value.get('a')
 
+@marc21.over('aleph_linking_field', '^962..')
+@utils.for_each_value
+@utils.filter_values
+def aleph_linking_field(self, key, value):
+    return {
+        'link_type': value.get('a'),
+        'sysno_of_the_linked_document_record': value.get('b'),
+        'library_where_linked_record_is_located': value.get('l'),
+        'note_regarding_a_dn_link': value.get('n'),
+        'note_regarding_a_up_link': value.get('m'),
+        'analytic_link_year_link': value.get('y'),
+        'analytic_link_volume_link': value.get('v'),
+        'analytic_link_part_link': value.get('p'),
+        'analytic_link_issue_link': value.get('i'),
+        'analytic_link_pages': value.get('k'),
+        'base': value.get('t'),
+    }
+
 @marc21.over('collection_indicator', '^980..')
 @utils.for_each_value
 @utils.filter_values
