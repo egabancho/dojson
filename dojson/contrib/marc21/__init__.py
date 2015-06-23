@@ -3724,6 +3724,11 @@ def aleph_linking_field(self, key, value):
         'base': value.get('t'),
     }
 
+@marc21.over('owner', '^963..')
+@utils.filter_values
+def owner(self, key, value):
+    return value.get('a')
+
 @marc21.over('collection_indicator', '^980..')
 @utils.for_each_value
 @utils.filter_values
