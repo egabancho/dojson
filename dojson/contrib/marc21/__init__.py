@@ -115,6 +115,11 @@ def international_standard_book_number(self, key, value):
         'canceled_invalid_isbn': value.get('z'),
     }
 
+@marc21.over('international_standard_number', '^021..')
+def international_standard_number(self, key, value):
+    return value.get('a')
+
+
 @marc21.over('international_standard_serial_number', '^022[10.].')
 @utils.for_each_value
 @utils.filter_values
@@ -2559,6 +2564,11 @@ def source_of_description_note(self, key, value):
         'linkage': value.get('6'),
     }
 
+@marc21.over('document_type', '^594..')
+@utils.for_each_value
+def document_type(self, key, value):
+    return value.get('a')
+
 @marc21.over('internal_note', '^595..')
 @utils.for_each_value
 @utils.filter_values
@@ -2921,7 +2931,6 @@ def subject_added_entry_hierarchical_place_name(self, key, value):
 
 @marc21.over('subject_indicator', '^690C.')
 @utils.for_each_value
-@utils.filter_values
 def subject_indicator(self, keu, value):
     return value.get('a')
 
@@ -2935,6 +2944,15 @@ def accelerator(self, keu, value):
         'facility': value.get('f'),
         'project': value.get('p'),
         'study': value.get('s'),
+    }
+
+@marc21.over('classification_terms', '^694..')
+@utils.for_each_value
+@utils.filter_values
+def classification_terms(self, keu, value):
+    return {
+        'uncontrolled_term': value.get('a'),
+        'institute': value.get('9'),
     }
 
 @marc21.over('thesaurus_terms', '^695..')
@@ -3686,6 +3704,359 @@ def other_relationship_entry(self, key, value):
         'display_constant_controller': indicator_map2.get(key[4]),
     }
 
+@marc21.over('series_added_entry_personal_name', '^800[103].')
+@utils.for_each_value
+@utils.filter_values
+def series_added_entry_personal_name(self, key, value):
+    indicator_map1 = {u'1': u'Surname', u'0': u'Forename', u'3': u'Family name'}
+    return {
+        'authority_record_control_number': value.get('0'),
+        'materials_specified': value.get('3'),
+        'institution_to_which_field_applies': value.get('5'),
+        'relator_code': value.get('4'),
+        'control_subfield': value.get('7'),
+        'linkage': value.get('6'),
+        'field_link_and_sequence_number': value.get('8'),
+        'personal_name': value.get('a'),
+        'titles_and_other_words_associated_with_a_name': value.get('c'),
+        'numeration': value.get('b'),
+        'relator_term': value.get('e'),
+        'dates_associated_with_a_name': value.get('d'),
+        'miscellaneous_information': value.get('g'),
+        'date_of_a_work': value.get('f'),
+        'medium': value.get('h'),
+        'form_subheading': value.get('k'),
+        'attribution_qualifier': value.get('j'),
+        'medium_of_performance_for_music': value.get('m'),
+        'language_of_a_work': value.get('l'),
+        'arranged_statement_for_music': value.get('o'),
+        'number_of_part_section_of_a_work': value.get('n'),
+        'fuller_form_of_name': value.get('q'),
+        'name_of_part_section_of_a_work': value.get('p'),
+        'version': value.get('s'),
+        'key_for_music': value.get('r'),
+        'affiliation': value.get('u'),
+        'title_of_a_work': value.get('t'),
+        'bibliographic_record_control_number': value.get('w'),
+        'volume_sequential_designation': value.get('v'),
+        'international_standard_serial_number': value.get('x'),
+        'type_of_personal_name_entry_element': indicator_map1.get(key[3]),
+    }
+
+@marc21.over('series_added_entry_corporate_name', '^810[102].')
+@utils.for_each_value
+@utils.filter_values
+def series_added_entry_corporate_name(self, key, value):
+    indicator_map1 = {u'1': u'Jurisdiction name', u'0': u'Inverted name', u'2': u'Name in direct order'}
+    return {
+        'authority_record_control_number': value.get('0'),
+        'materials_specified': value.get('3'),
+        'institution_to_which_field_applies': value.get('5'),
+        'relator_code': value.get('4'),
+        'control_subfield': value.get('7'),
+        'linkage': value.get('6'),
+        'field_link_and_sequence_number': value.get('8'),
+        'corporate_name_or_jurisdiction_name_as_entry_element': value.get('a'),
+        'location_of_meeting': value.get('c'),
+        'subordinate_unit': value.get('b'),
+        'relator_term': value.get('e'),
+        'date_of_meeting_or_treaty_signing': value.get('d'),
+        'miscellaneous_information': value.get('g'),
+        'date_of_a_work': value.get('f'),
+        'medium': value.get('h'),
+        'form_subheading': value.get('k'),
+        'medium_of_performance_for_music': value.get('m'),
+        'language_of_a_work': value.get('l'),
+        'arranged_statement_for_music': value.get('o'),
+        'number_of_part_section_meeting': value.get('n'),
+        'name_of_part_section_of_a_work': value.get('p'),
+        'version': value.get('s'),
+        'key_for_music': value.get('r'),
+        'affiliation': value.get('u'),
+        'title_of_a_work': value.get('t'),
+        'bibliographic_record_control_number': value.get('w'),
+        'volume_sequential_designation': value.get('v'),
+        'international_standard_serial_number': value.get('x'),
+        'type_of_corporate_name_entry_element': indicator_map1.get(key[3]),
+    }
+
+@marc21.over('series_added_entry_meeting_name', '^811[102].')
+@utils.for_each_value
+@utils.filter_values
+def series_added_entry_meeting_name(self, key, value):
+    indicator_map1 = {u'1': u'Jurisdiction name', u'0': u'Inverted name', u'2': u'Name in direct order'}
+    return {
+        'authority_record_control_number': value.get('0'),
+        'materials_specified': value.get('3'),
+        'institution_to_which_field_applies': value.get('5'),
+        'relator_code': value.get('4'),
+        'control_subfield': value.get('7'),
+        'linkage': value.get('6'),
+        'field_link_and_sequence_number': value.get('8'),
+        'meeting_name_or_jurisdiction_name_as_entry_element': value.get('a'),
+        'location_of_meeting': value.get('c'),
+        'subordinate_unit': value.get('e'),
+        'date_of_meeting': value.get('d'),
+        'miscellaneous_information': value.get('g'),
+        'date_of_a_work': value.get('f'),
+        'medium': value.get('h'),
+        'form_subheading': value.get('k'),
+        'relator_term': value.get('j'),
+        'language_of_a_work': value.get('l'),
+        'number_of_part_section_meeting': value.get('n'),
+        'name_of_meeting_following_jurisdiction_name_entry_element': value.get('q'),
+        'name_of_part_section_of_a_work': value.get('p'),
+        'version': value.get('s'),
+        'affiliation': value.get('u'),
+        'title_of_a_work': value.get('t'),
+        'bibliographic_record_control_number': value.get('w'),
+        'volume_sequential_designation': value.get('v'),
+        'international_standard_serial_number': value.get('x'),
+        'type_of_meeting_name_entry_element': indicator_map1.get(key[3]),
+    }
+
+@marc21.over('series_added_entry_uniform_title', '^830.[0]')
+@utils.for_each_value
+@utils.filter_values
+def series_added_entry_uniform_title(self, key, value):
+    indicator_map2 = {u'0': u'No nonfiling characters'}
+    return {
+        'authority_record_control_number': value.get('0'),
+        'materials_specified': value.get('3'),
+        'institution_to_which_field_applies': value.get('5'),
+        'control_subfield': value.get('7'),
+        'linkage': value.get('6'),
+        'field_link_and_sequence_number': value.get('8'),
+        'uniform_title': value.get('a'),
+        'date_of_treaty_signing': value.get('d'),
+        'miscellaneous_information': value.get('g'),
+        'date_of_a_work': value.get('f'),
+        'medium': value.get('h'),
+        'form_subheading': value.get('k'),
+        'medium_of_performance_for_music': value.get('m'),
+        'language_of_a_work': value.get('l'),
+        'arranged_statement_for_music': value.get('o'),
+        'number_of_part_section_of_a_work': value.get('n'),
+        'name_of_part_section_of_a_work': value.get('p'),
+        'version': value.get('s'),
+        'key_for_music': value.get('r'),
+        'title_of_a_work': value.get('t'),
+        'bibliographic_record_control_number': value.get('w'),
+        'volume_sequential_designation': value.get('v'),
+        'international_standard_serial_number': value.get('x'),
+        'nonfiling_characters': indicator_map2.get(key[4]),
+    }
+
+@marc21.over('holding_institution', '^850..')
+@utils.for_each_value
+@utils.filter_values
+def holding_institution(self, key, value):
+    return {
+        'holding_institution': value.get('a'),
+        'field_link_and_sequence_number': value.get('8'),
+    }
+
+@marc21.over('location', '^852[.103254768][10.2]')
+@utils.for_each_value
+@utils.filter_values
+def location(self, key, value):
+    indicator_map1 = {u'#': u'No information provided', u'1': u'Dewey Decimal classification', u'0': u'Library of Congress classification', u'3': u'Superintendent of Documents classification', u'2': u'National Library of Medicine classification', u'5': u'Title', u'4': u'Shelving control number', u'7': u'Source specified in subfield $2', u'6': u'Shelved separately', u'8': u'Other scheme'}
+    indicator_map2 = {u'1': u'Primary enumeration', u'0': u'Not enumeration', u'#': u'No information provided', u'2': u'Alternative enumeration'}
+    return {
+        'materials_specified': value.get('3'),
+        'source_of_classification_or_shelving_scheme': value.get('2'),
+        'linkage': value.get('6'),
+        'sequence_number': value.get('8'),
+        'location': value.get('a'),
+        'shelving_location': value.get('c'),
+        'sublocation_or_collection': value.get('b'),
+        'address': value.get('e'),
+        'former_shelving_location': value.get('d'),
+        'non_coded_location_qualifier': value.get('g'),
+        'coded_location_qualifier': value.get('f'),
+        'item_part': value.get('i'),
+        'classification_part': value.get('h'),
+        'call_number_prefix': value.get('k'),
+        'shelving_control_number': value.get('j'),
+        'call_number_suffix': value.get('m'),
+        'shelving_form_of_title': value.get('l'),
+        'country_code': value.get('n'),
+        'piece_physical_condition': value.get('q'),
+        'piece_designation': value.get('p'),
+        'copyright_article_fee_code': value.get('s'),
+        'uniform_resource_identifier': value.get('u'),
+        'copy_number': value.get('t'),
+        'nonpublic_note': value.get('x'),
+        'public_note': value.get('z'),
+        'shelving_scheme': indicator_map1.get(key[3]),
+        'shelving_order': indicator_map2.get(key[4]),
+    }
+
+@marc21.over('electronic_location_and_access', '^856.[10.28]')
+@utils.for_each_value
+@utils.filter_values
+def electronic_location_and_access(self, key, value):
+    indicator_map1 = {u'1': u'FTP', u'0': u'Email', u'#': u'No information provided', u'2': u'Remote login (Telnet)', u'3': u'Dial-up', u'4': 'HTTP', u'7': 'Method specified in subfield access_method'}
+    indicator_map2 = {u'1': u'Version of resource', u'0': u'Resource', u'#': u'No information provided', u'2': u'Related resource', u'8': u'No display constant generated'}
+    return {
+        'materials_specified': value.get('3'),
+        'access_method': value.get('2'),
+        'linkage': value.get('6'),
+        'field_link_and_sequence_number': value.get('8'),
+        'host_name': value.get('a'),
+        'compression_information': value.get('c'),
+        'access_number': value.get('b'),
+        'path': value.get('d'),
+        'electronic_name': value.get('f'),
+        'instruction': value.get('i'),
+        'processor_of_request': value.get('h'),
+        'password': value.get('k'),
+        'bits_per_second': value.get('j'),
+        'contact_for_access_assistance': value.get('m'),
+        'logon': value.get('l'),
+        'operating_system': value.get('o'),
+        'name_of_location_of_host': value.get('n'),
+        'electronic_format_type': value.get('q'),
+        'port': value.get('p'),
+        'file_size': value.get('s'),
+        'settings': value.get('r'),
+        'uniform_resource_identifier': value.get('u'),
+        'terminal_emulation': value.get('t'),
+        'record_control_number': value.get('w'),
+        'hours_access_method_available': value.get('v'),
+        'link_text': value.get('y'),
+        'nonpublic_note': value.get('x'),
+        'public_note': value.get('z'),
+        'method': indicator_map1.get(key[3]),
+        'relationship': indicator_map2.get(key[4]),
+    }
+
+# @marc21.over('alternate_graphic_representation', '^880..')
+# @utils.for_each_value
+# @utils.filter_values
+# def alternate_graphic_representation(self, key, value):
+#     return {
+#         'same_as_associated_field': value.get('1'),
+#         'same_as_associated_field': value.get('0'),
+#         'same_as_associated_field': value.get('3'),
+#         'same_as_associated_field': value.get('2'),
+#         'same_as_associated_field': value.get('5'),
+#         'same_as_associated_field': value.get('4'),
+#         'same_as_associated_field': value.get('7'),
+#         'linkage': value.get('6'),
+#         'same_as_associated_field': value.get('9'),
+#         'same_as_associated_field': value.get('8'),
+#         'same_as_associated_field': value.get('a'),
+#         'same_as_associated_field': value.get('c'),
+#         'same_as_associated_field': value.get('b'),
+#         'same_as_associated_field': value.get('e'),
+#         'same_as_associated_field': value.get('d'),
+#         'same_as_associated_field': value.get('g'),
+#         'same_as_associated_field': value.get('f'),
+#         'same_as_associated_field': value.get('i'),
+#         'same_as_associated_field': value.get('h'),
+#         'same_as_associated_field': value.get('k'),
+#         'same_as_associated_field': value.get('j'),
+#         'same_as_associated_field': value.get('m'),
+#         'same_as_associated_field': value.get('l'),
+#         'same_as_associated_field': value.get('o'),
+#         'same_as_associated_field': value.get('n'),
+#         'same_as_associated_field': value.get('q'),
+#         'same_as_associated_field': value.get('p'),
+#         'same_as_associated_field': value.get('s'),
+#         'same_as_associated_field': value.get('r'),
+#         'same_as_associated_field': value.get('u'),
+#         'same_as_associated_field': value.get('t'),
+#         'same_as_associated_field': value.get('w'),
+#         'same_as_associated_field': value.get('v'),
+#         'same_as_associated_field': value.get('y'),
+#         'same_as_associated_field': value.get('x'),
+#         'same_as_associated_field': value.get('z'),
+#     }
+
+@marc21.over('replacement_record_information', '^882..')
+@utils.filter_values
+def replacement_record_information(self, key, value):
+    return {
+        'replacement_title': value.get('a'),
+        'field_link_and_sequence_number': value.get('8'),
+        'explanatory_text': value.get('i'),
+        'replacement_bibliographic_record_control_number': value.get('w'),
+        'linkage': value.get('6'),
+    }
+
+@marc21.over('machine_generated_metadata_provenance', '^883[10.].')
+@utils.for_each_value
+@utils.filter_values
+def machine_generated_metadata_provenance(self, key, value):
+    indicator_map1 = {u'1': u'Partially machine-generated', u'0': u'Fully machine-generated', u'#': u'No information provided/not applicable'}
+    return {
+        'generation_process': value.get('a'),
+        'confidence_value': value.get('c'),
+        'generation_date': value.get('d'),
+        'generation_agency': value.get('q'),
+        'authority_record_control_number_or_standard_number': value.get('0'),
+        'uniform_resource_identifier': value.get('u'),
+        'bibliographic_record_control_number': value.get('w'),
+        'validity_end_date': value.get('x'),
+        'field_link_and_sequence_number': value.get('8'),
+        'method_of_machine_assignment': indicator_map1.get(key[3]),
+    }
+
+# @marc21.over('foreign_marc_information_field', '^886[102].')
+# @utils.for_each_value
+# @utils.filter_values
+# def foreign_marc_information_field(self, key, value):
+#     indicator_map1 = {u'1': u'Variable control fields (002-009)', u'0': u'Leader', u'2': u'Variable data fields (010-999)'}
+#     return {
+#         'foreign_marc_subfield': value.get('1'),
+#         'foreign_marc_subfield': value.get('0'),
+#         'foreign_marc_subfield': value.get('3'),
+#         'foreign_marc_subfield': value.get('2'),
+#         'foreign_marc_subfield': value.get('5'),
+#         'foreign_marc_subfield': value.get('4'),
+#         'foreign_marc_subfield': value.get('7'),
+#         'foreign_marc_subfield': value.get('6'),
+#         'foreign_marc_subfield': value.get('9'),
+#         'foreign_marc_subfield': value.get('8'),
+#         'foreign_marc_subfield': value.get('a'),
+#         'foreign_marc_subfield': value.get('c'),
+#         'foreign_marc_subfield': value.get('b'),
+#         'foreign_marc_subfield': value.get('e'),
+#         'foreign_marc_subfield': value.get('d'),
+#         'foreign_marc_subfield': value.get('g'),
+#         'foreign_marc_subfield': value.get('f'),
+#         'foreign_marc_subfield': value.get('i'),
+#         'foreign_marc_subfield': value.get('h'),
+#         'foreign_marc_subfield': value.get('k'),
+#         'foreign_marc_subfield': value.get('j'),
+#         'foreign_marc_subfield': value.get('m'),
+#         'foreign_marc_subfield': value.get('l'),
+#         'foreign_marc_subfield': value.get('o'),
+#         'foreign_marc_subfield': value.get('n'),
+#         'foreign_marc_subfield': value.get('q'),
+#         'foreign_marc_subfield': value.get('p'),
+#         'foreign_marc_subfield': value.get('s'),
+#         'foreign_marc_subfield': value.get('r'),
+#         'foreign_marc_subfield': value.get('u'),
+#         'foreign_marc_subfield': value.get('t'),
+#         'foreign_marc_subfield': value.get('w'),
+#         'foreign_marc_subfield': value.get('v'),
+#         'foreign_marc_subfield': value.get('y'),
+#         'foreign_marc_subfield': value.get('x'),
+#         'foreign_marc_subfield': value.get('z'),
+#         'type_of_field': indicator_map1.get(key[3]),
+#     }
+
+@marc21.over('non_marc_information_field', '^887..')
+@utils.for_each_value
+@utils.filter_values
+def non_marc_information_field(self, key, value):
+    return {
+        'content_of_non_marc_field': value.get('a'),
+        'source_of_data': value.get('2'),
+    }
+
 @marc21.over('status_week', '^916..')
 @utils.for_each_value
 @utils.filter_values
@@ -3702,7 +4073,6 @@ def status_week(self, key, value):
 
 @marc21.over('base_number', '^960..')
 @utils.for_each_value
-@utils.filter_values
 def base_number(self, key, value):
     return value.get('a')
 
@@ -3725,9 +4095,11 @@ def aleph_linking_field(self, key, value):
     }
 
 @marc21.over('owner', '^963..')
-@utils.filter_values
 def owner(self, key, value):
-    return value.get('a')
+    try:
+        return value.get('a')
+    except:
+        import ipdb; ipdb.set_trace()
 
 @marc21.over('collection_indicator', '^980..')
 @utils.for_each_value
