@@ -177,3 +177,52 @@ def test_marc21_loader():
 
     records = list(load(StringIO(COLLECTION)))
     assert len(records) == 2
+
+
+def test_marc21_856_indicators():
+    """Test MARC21 856 field special indicator values."""
+    from dojson.contrib.marc21 import marc21
+    from dojson.contrib.marc21.utils import create_record
+
+    RECORD_8564 = '''
+    <datafield tag="856" ind1="4" ind2=" ">
+        <subfield code="s">272681</subfield>
+        <subfield code="u">https://zenodo.org/record/17575/files/...</subfield>
+        <subfield code="z">0</subfield>
+    </datafield>
+    '''
+    RECORD_8567 = '''
+    <datafield tag="856" ind1="7" ind2=" ">
+        <subfield code="s">272681</subfield>
+        <subfield code="u">https://zenodo.org/record/17575/files/...</subfield>
+        <subfield code="z">0</subfield>
+        <subfield code="2">Awesome access method</subfield>
+    </datafield>
+    '''
+
+    expected_8564 = {
+        'electronic_location_and_access': [
+            {'public_note': ['0'],
+             'access_method': 'HTTP',
+             'uniform_resource_identifier': [
+                 'https://zenodo.org/record/17575/files/...'],
+             'file_size': ['272681']}
+        ]
+    }
+    expected_8567 = {
+        'electronic_location_and_access': [
+            {'public_note': ['0'],
+             'access_method': 'Awesome access method',
+             'uniform_resource_identifier': [
+                 'https://zenodo.org/record/17575/files/...'],
+             'file_size': ['272681']}
+        ]
+    }
+
+    blob = create_record(RECORD_8564)
+    data = marc21.do(blob)
+    assert data == expected_8564
+
+    blob = create_record(RECORD_8567)
+    data = marc21.do(blob)
+    assert data == expected_8567
